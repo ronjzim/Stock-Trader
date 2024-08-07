@@ -1,3 +1,5 @@
+import schedule
+import time
 from alpaca.trading.client import TradingClient
 from alpaca.trading.requests import GetAssetsRequest, OrderRequest
 from alpaca.trading.enums import AssetClass, OrderType, OrderSide, TimeInForce
@@ -15,12 +17,13 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 trading_client = TradingClient(API_KEY, SECRET_KEY)
 data_client = StockHistoricalDataClient(API_KEY, SECRET_KEY)
 
-# Check account information
-account = trading_client.get_account()
-if account.trading_blocked:
-    print('Account is currently restricted from trading.')
-else:
-    print(f'${account.buying_power} is available as buying power.')
+# Check account information, run program
+def run_trading_bot():
+    account = trading_client.get_account()
+    if account.trading_blocked:
+        print('Account is currently restricted from trading.')
+    else:
+        print(f'${account.buying_power} is available as buying power.')
 
 # Get a list of portforlio assets
 portfolio = trading_client.get_all_positions()
@@ -145,3 +148,14 @@ for symbol in eligible_assets_for_selling:
         )
         trading_client.submit_order(order_request)
         print(f"Placed sell order for {symbol}.")
+
+# Schedule the script to run every weekday at 9:30 AM
+schedule.every().monday.at("09:30").do(run_trading_bot)
+schedule.every().tuesday.at("09:30").do(run_trading_bot)
+schedule.every().wednesday.at("09:30").do(run_trading_bot)
+schedule.every().thursday.at("09:30").do(run_trading_bot)
+schedule.every().friday.at("09:30").do(run_trading_bot)
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
