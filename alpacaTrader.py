@@ -25,7 +25,7 @@ def run_trading_bot():
     else:
         print(f'${account.buying_power} is available as buying power.')
 
-# Get a list of portforlio assets
+# Get a list of portfolio assets
 portfolio = trading_client.get_all_positions()
 portfolio_symbols = [position.symbol for position in portfolio]
 print(portfolio)
