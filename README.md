@@ -3,11 +3,9 @@ Stock Trading Bot:
 This Project is a Python Stock Trading Bot built in Python using the Alpaca trading API.
 
 Usage:
-Enter your Alpaca API_KEY and SECRET_KEY in the designated portion of the file. The Bot will connect to your live or paper Alpaca
-portfolio depending on the API and SECRET KEYs you have entered. The Bot is designed to Scan through the S&P 500 US equities daily 
-and automatically buy and sell shares based on set parameters.
+Enter your Alpaca API_KEY and SECRET_KEY in the designated portion of the file. The Bot will connect to your live or paper Alpaca portfolio depending on the API and SECRET KEYs you have entered. The Bot is designed to Scan through the S&P 500 US equities and automatically buy and sell shares based on set parameters. The Bot will run on an automated schedule, performing its tasks every weekday at 9:30am.
 
-Shares bought and Stocks scanned are configurable
+Shares bought and Stocks scanned are configurable.
 
 Buying Parameters:
 A stock will be purchased if the daily return is greater than or equal to 5%, the 1 week, 1 month, and 3 month return is positive, but
