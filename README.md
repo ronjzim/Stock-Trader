@@ -7,7 +7,7 @@ Enter your Alpaca API_KEY and SECRET_KEY in the designated portion of the file. 
 portfolio depending on the API and SECRET KEYs you have entered. The Bot is designed to Scan through the S&P 500 US equities daily 
 and automatically buy and sell shares based on set parameters.
 
-Shares bought and Stocks scaned are configurable
+Shares bought and Stocks scanned are configurable
 
 Buying Parameters:
 A stock will be purchased if the daily return is greater than or equal to 5%, the 1 week, 1 month, and 3 month return is positive, but
