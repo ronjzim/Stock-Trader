@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# Enter your Alpaca API key and secret here
 API_KEY = os.getenv('API_KEY')
 SECRET_KEY = os.getenv('SECRET_KEY')
 
@@ -30,12 +31,12 @@ portfolio = trading_client.get_all_positions()
 portfolio_symbols = [position.symbol for position in portfolio]
 print(portfolio)
 
-# search for US equities assets to work with
+# search for US equities assets to work with (optional, way longer run time)
 search_params = GetAssetsRequest(asset_class=AssetClass.US_EQUITY)
 # assets = trading_client.get_all_assets(search_params)
 # asset_symbols = [asset.symbol for asset in assets if asset.tradable and asset.symbol not in portfolio_symbols]
 
-# S&P 500 sample symbols
+# S&P 500 sample symbols (faster run time, good to start with)
 stock_symbols = ["AAPL", "MSFT", "AMZN", "GOOGL", "GOOG", "NVDA", "BRK.B", "TSLA", "META", "UNH", "JNJ", "XOM", "V", "PG", "JPM", "MA", "HD", "MRK", "CVX", "LLY", "PEP", "ABBV", "KO", "AVGO", "COST", "MCD", "TMO", "WMT", "CSCO", "ACN", "NEE", "NKE", "PFE", "ADBE", "NFLX", "ABT", "CRM", "TXN", "LIN", "DIS", "PM", "VZ", "CMCSA", "DHR", "HON", "WFC", "MS", "BMY", "RTX", "UNP", "INTC", "MDT", "IBM", "SCHW", "GS", "GE", "LMT", "AMD", "UPS", "T", "LOW", "AXP", "ISRG", "ORCL", "SPGI", "PLD", "AMGN", "AMT", "SYK", "ELV", "CVS", "MDLZ", "CAT", "ZTS", "GILD", "ADP", "BKNG", "DE", "CI", "BLK", "CB", "BA", "MMC", "C", "DUK", "TJX", "MO", "PYPL", "TGT", "PNC", "BDX", "SO", "USB", "VRTX", "MMM", "MU", "REGN", "AMAT", "ITW", "ADI", "EQIX", "CCI", "CL", "EW", "NSC", "FCX", "BSX", "APD", "CME", "ICE", "COP", "ADM", "MCO", "HUM", "SPG", "ADSK", "NOW", "CTVA", "GM", "TRV", "FIS", "AON", "SNPS", "SBUX", "KMB", "MPC", "ORLY", "MCK", "TROW", "AEP", "HCA", "MET", "CMG", "DG", "AIG", "PSA", "EMR", "GD", "ILMN", "D", "FDX", "STZ", "SRE", "EXC", "PSX", "ETN", "COF", "APTV", "ROP", "DLR", "EBAY", "YUM", "PGR", "WBA", "ROST", "KMI", "WMB", "CTAS", "NOC", "EOG", "WELL", "ALL", "HSY", "DOW", "PH", "MSCI", "KLAC", "PPG", "OXY", "DGX", "XEL", "ED", "BIIB", "FTNT", "IDXX", "SBAC", "ODFL", "NUE", "ANSS", "CDNS", "A", "DFS", "RSG", "FAST", "PAYC", "CSX", "RMD", "CRL", "AVB", "STT", "TEL", "KEYS", "MLM", "FTV", "ETSY", "HPE", "RHI", "CNP", "PXD", "ESS", "MOS", "SWK", "TDG", "LDOS", "LHX", "VTR", "TRU", "AAL", "HAL", "MTD", "RF", "TSN", "AES", "BF.B", "HST", "ETR", "VMC", "VRSN", "CTLT", "HES", "FTI", "F", "PFG", "NRG", "WRB", "NTRS", "ALB", "LNC", "ZBH", "CPRT", "UDR", "AKAM", "EXPE", "URI", "CFG", "TTWO", "WYNN", "IR", "NTAP", "CINF", "ZION", "NWS", "FMC", "CMA", "CAG", "SWKS", "CF", "HP", "LKQ", "BWA", "SYY", "TXT", "JCI", "GLW", "NCLH", "WY", "JWN", "ROL", "JBHT", "KMX", "HOG", "AAP", "ALK", "RL", "NDAQ", "MRO", "PRGO", "KSS", "HSIC", "IRM", "WU", "LUV", "COTY", "PENN", "NI", "UAL", "CZR", "MGM", "HBI", "DVA", "AIZ", "HII", "UHS", "HOLX", "BKR", "HAS", "LEG", "XRAY", "PNR", "HRL", "BBY", "DISH", "PWR", "WHR", "J", "QRVO", "FLT", "HIG", "EQR", "DRI", "LYB", "ALGN", "TPR", "ATO", "L", "DOV", "CBOE", "KIM", "CNC", "FRT", "CPT", "GRMN", "SEE", "NTES", "VFC", "LUMN", "VRSK", "CMS", "ZBRA", "MSM", "AVY", "FFIV", "JNPR", "BAX", "ULTA", "GWW"]
 asset_symbols = [stock for stock in stock_symbols if stock not in portfolio_symbols]
 
@@ -54,7 +55,7 @@ def get_historical_data(symbol, start, end):
 # Check performance function
 def check_performance(symbol):
     end_date = datetime.now()
-    start_date = end_date - timedelta(days=365)  # Fetch 1 year of data
+    start_date = end_date - timedelta(days=365)  # 1 year of stock data
 
     # Get historical data
     stock_df = get_historical_data(symbol, start_date, end_date)
@@ -66,10 +67,10 @@ def check_performance(symbol):
     
     # Calculate performance
     stock_df['Daily Return'] = stock_df['close'].pct_change()
-    stock_df['3 Month Return'] = stock_df['close'].pct_change(periods=63)  # ~3 months
-    stock_df['1 Month Return'] = stock_df['close'].pct_change(periods=21)  # ~1 month
-    stock_df['1 Week Return'] = stock_df['close'].pct_change(periods=5)    # ~1 week
-    stock_df['1 Year Return'] = stock_df['close'].pct_change(periods=252)  # ~1 year
+    stock_df['3 Month Return'] = stock_df['close'].pct_change(periods=63)  # 3 months
+    stock_df['1 Month Return'] = stock_df['close'].pct_change(periods=21)  # 1 month
+    stock_df['1 Week Return'] = stock_df['close'].pct_change(periods=5)    # 1 week
+    stock_df['1 Year Return'] = stock_df['close'].pct_change(periods=252)  # 1 year
 
     # Check if the stock is up 5% in a day
     if stock_df['Daily Return'].iloc[-1] >= 0.05:
@@ -84,7 +85,7 @@ def check_performance(symbol):
 
 # Check performance function for selling
 def check_performance_for_selling(symbol):
-    # Fetch the last close price and the average buy price
+    # Get last close price and the average buy price
     position = next((pos for pos in portfolio if pos.symbol == symbol), None)
     if not position:
         return False
@@ -97,7 +98,7 @@ def check_performance_for_selling(symbol):
         return True
     return False
 
-# Determine which US equities assets meet the criteria
+# Determine which US equities / S&P 500 assets meet the criteria
 eligible_assets_for_buying = []
 for symbol in asset_symbols:
     if check_performance(symbol) and symbol not in portfolio_symbols:
@@ -109,7 +110,7 @@ if not eligible_assets_for_buying:
 else:
     print("Eligible assets for purchase today:", eligible_assets_for_buying)
 
-# Determine which assets to sell
+# Determine which assets in the current portfolio to sell
 eligible_assets_for_selling = []
 for symbol in portfolio_symbols:
     if check_performance_for_selling(symbol):
@@ -123,7 +124,7 @@ else:
 
 # Buy the eligible assets for buying
 for symbol in eligible_assets_for_buying:
-    qty_to_buy = 10  # Adjust the quantity as needed
+    qty_to_buy = 10  # Adjust the quantity of shares to by as needed
     order_request = OrderRequest(
         symbol=symbol,
         qty=qty_to_buy,
