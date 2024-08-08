@@ -124,7 +124,7 @@ else:
 
 # Buy the eligible assets for buying
 for symbol in eligible_assets_for_buying:
-    qty_to_buy = 10  # Adjust the quantity of shares to by as needed
+    qty_to_buy = 10  # Adjust the quantity of shares to buy as needed
     order_request = OrderRequest(
         symbol=symbol,
         qty=qty_to_buy,
